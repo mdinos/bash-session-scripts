@@ -5,8 +5,6 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias cdh='cd /home/marcus/git/hmrc'
-
 export SENDAT_HOME=/home/marcus/git/me/sensors-data
 alias sendat='${SENDAT_HOME}/sendat.py'
 
