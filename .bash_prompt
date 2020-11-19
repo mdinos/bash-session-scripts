@@ -4,6 +4,7 @@
 # Heavily inspired by @necolas’s prompt: https://github.com/necolas/dotfiles
 # iTerm → Profiles → Text → use 13pt Monaco with 1.1 vertical spacing.
 # vim: set filetype=sh :
+# Minor edits by github.com/mdinos
 
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -45,9 +46,11 @@ fi;
 # Set CLICOLOR variable for colourised output from various commands
 export CLICOLOR=1
 
-# Highlight the user name when logged in as root.
-if [[ "${USER}" == "root" ]]; then
+# Highlight the user name when logged in as root, or dev in container
+if [[ $(whoami) == "root" ]]; then
 	userStyle="${red}";
+elif [[ $(whoami) == "dev" ]]; then
+	userStyle="${purple}";
 else
 	userStyle="${blue}";
 fi;
@@ -64,7 +67,12 @@ PS1="\\[\\033]0;\\w\\007\\]";
 PS1+="\\[${bold}\\]"; # newline
 PS1+="\\[${userStyle}\\]\\u"; # username
 PS1+="\\[${white}\\] at "; # at
-PS1+="\\[${hostStyle}\\]${cloud}\\h"; # host
+
+if [[ $HOSTNAME == 'HOLBMAC0925' ]]; then
+	PS1+="\\[${hostStyle}\\]${cloud}MW-JS"; # get rid of ugly hostname
+else
+	PS1+="\\[${hostStyle}\\]${cloud}\\h"; # host
+fi;
 PS1+="\\[${white}\\]: "; # colon
 PS1+="\\[${violet}\\]\\w"; # working directory
 PS1+="\\[${green}\\]\$(parse_git_branch)";
