@@ -10,14 +10,16 @@ alias sendat='${SENDAT_HOME}/sendat.py'
 
 alias await=await
 
-await() {
-  $@
+await () {
   attempts=0
-  while [[ $? -ne 0 ]];
+  rc=1
+  while [[ $rc != 0 ]];
   do 
+    echo "Trying to execute \"${@}\", ${attempts} attempts so far."
     $@
+    rc=$?
     attempts=$(expr $attempts + 1)
-    echo "Trying to execute $@, $attempts attempts so far."
     sleep 1
   done
+  echo "Return code ${rc} from ${@}, exiting."
 }
